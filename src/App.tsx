@@ -859,11 +859,19 @@ export default function App() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Çapraz Doğrulama MAE:</span>
-                    <span className="text-cyan-300 font-bold">{engineResult.modelMetrics.loyoMae} m³/s</span>
+                    <span className="text-cyan-300 font-bold">
+                      {engineResult.modelMetrics.loyoMae !== null
+                        ? `${engineResult.modelMetrics.loyoMae} m³/s`
+                        : 'Yetersiz Veri'}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Model Doğruluğu R²:</span>
-                    <span className="text-emerald-300 font-bold">{engineResult.modelMetrics.loyoR2}</span>
+                    <span className="text-emerald-300 font-bold">
+                      {engineResult.modelMetrics.loyoR2 !== null
+                        ? engineResult.modelMetrics.loyoR2
+                        : 'Yetersiz Veri'}
+                    </span>
                   </div>
                   <div className="text-[9px] text-slate-500 font-sans italic pt-0.5">
                     * {selectedYear} yılı eğitime katılmamıştır.

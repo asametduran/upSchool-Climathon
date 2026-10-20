@@ -217,7 +217,18 @@ export const CounterfactualTicker: React.FC<CounterfactualTickerProps> = ({
         />
         <div className="flex justify-between text-[10px] text-slate-500 font-mono">
           <span>01 Mart</span>
-          <span>15 Nisan (Kesim: {cutoffDateStr})</span>
+          <span>
+            {(() => {
+              const parts = cutoffDateStr?.split('-');
+              if (parts && parts.length === 3) {
+                const monthNum = parseInt(parts[1], 10);
+                const dayNum = parseInt(parts[2], 10);
+                const months = ['', 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+                return `${dayNum} ${months[monthNum] || parts[1]} (Kesim)`;
+              }
+              return `${cutoffDateStr} (Kesim)`;
+            })()}
+          </span>
           <span>30 Haziran</span>
         </div>
       </div>
@@ -259,7 +270,7 @@ export const CounterfactualTicker: React.FC<CounterfactualTickerProps> = ({
             <span className="text-xs font-semibold text-emerald-400">Ton CO₂</span>
           </div>
           <div className="text-[11px] text-slate-400 mt-1">
-            0.45 tCO₂/MWh şebeke emisyon faktörüyle
+            {scenarioParams.emissionFactorTCO2PerMWh ?? scenarioParams.emissionFactor} tCO₂/MWh şebeke emisyon faktörüyle
           </div>
           <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl pointer-events-none" />
         </div>

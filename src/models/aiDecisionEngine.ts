@@ -457,10 +457,12 @@ export function runHydrologyDecisionEngine(
 
   const loyoMae =
     loyoAbsoluteErrors.length > 0
-      ? loyoAbsoluteErrors.reduce((a, b) => a + b, 0) / loyoAbsoluteErrors.length
-      : 14.5;
+      ? Number((loyoAbsoluteErrors.reduce((a, b) => a + b, 0) / loyoAbsoluteErrors.length).toFixed(2))
+      : null;
   const loyoR2 =
-    loyoSumSqTot > 0 ? Math.max(-0.5, Math.min(0.99, 1 - loyoSumSqErr / loyoSumSqTot)) : 0.82;
+    loyoSumSqTot > 0 && loyoAbsoluteErrors.length > 0
+      ? Number(Math.max(-0.5, Math.min(0.99, 1 - loyoSumSqErr / loyoSumSqTot)).toFixed(3))
+      : null;
 
   // Compute empirical quantiles for probabilistic bands
   const q10 = getPercentile(loyoResidualRatios, 10);
@@ -476,8 +478,8 @@ export function runHydrologyDecisionEngine(
   console.log(`Test Yılı: ${selectedYear} (Eğitime katılmadı - OOS)`);
   console.log(`Model Türü: ${modelType === 'ridge' ? 'Lineer Ridge (L2 λ=1.0)' : 'Gradient-Boosted Decision Stumps (50 Ağaç)'}`);
   console.log(`Tahmin Kesim Tarihi: ${cutoffDateStr} (İndeks: ${cutoffIdx})`);
-  console.log(`LOYO Cross-Validation MAE: ${loyoMae.toFixed(2)} m³/s`);
-  console.log(`LOYO Cross-Validation R²: ${loyoR2.toFixed(3)}`);
+  console.log(`LOYO Cross-Validation MAE: ${loyoMae !== null ? `${loyoMae} m³/s` : 'Yetersiz Veri'}`);
+  console.log(`LOYO Cross-Validation R²: ${loyoR2 !== null ? loyoR2 : 'Yetersiz Veri'}`);
   console.log(`Empirik Kalıntı Log-Oran Kuantilleri (q10, q50, q90): [${q10.toFixed(3)}, ${q50.toFixed(3)}, ${q90.toFixed(3)}]`);
   console.log('================================================================');
 
@@ -769,8 +771,8 @@ export function runHydrologyDecisionEngine(
   return {
     dailyForecasts,
     modelMetrics: {
-      loyoMae: Number(loyoMae.toFixed(2)),
-      loyoR2: Number(loyoR2.toFixed(3)),
+      loyoMae,
+      loyoR2,
       trainYears,
       testYear: selectedYear,
       subBasin: selectedBasin,

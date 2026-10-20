@@ -26,11 +26,12 @@ export interface ScenarioParams {
   dayTariffTL: number;               // TL / MWh, default 3200
   nightTariffTL: number;             // TL / MWh, default 1900
   emissionFactor: number;            // tCO2 / MWh, default 0.45
+  emissionFactorTCO2PerMWh?: number; // optional alias for emission factor
 }
 
 export interface ModelMetrics {
-  loyoMae: number;
-  loyoR2: number;
+  loyoMae: number | null;
+  loyoR2: number | null;
   trainYears: number[];
   testYear: number;
   subBasin: SubBasin;
