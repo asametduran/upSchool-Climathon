@@ -1,0 +1,6 @@
+{
+  "name": "Keban–Hazar Havzası Hidrolojik Karar Destek Platformu · Demo",
+  "description": "Mart–Haziran kar erimesi, giriş debisi tahmini ve Uluova/Palu sulama pompaj optimizasyon karar destek platformu.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
